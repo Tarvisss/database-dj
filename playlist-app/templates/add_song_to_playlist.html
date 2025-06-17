@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Add a song to {{ playlist.name }}</h1>
+
+<p>Choose a song to add to this playlist:</p>
+
+<form id="new-song-form" method="post">
+    {{ form.hidden_tag() }}
+    
+    <!-- Loop through fields and skip hidden fields -->
+    {% for field in form %}
+        {% if field.widget.input_type != 'hidden' %}
+            <p>
+                {{ field.label }}<br>
+                {{ field() }}
+            </p>
+        {% endif %}
+    {% endfor %}
+    
+    <button type="submit">Submit</button>
+</form>
+
+{% if form.errors %}
+    <ul>
+        {% for field, errors in form.errors.items() %}
+            <li>{{ field.label }}:
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}
